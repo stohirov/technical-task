@@ -3,11 +3,12 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import os
 import base64
 
-password = os.urandom(16)  # Random password (salt)
+password = os.urandom(32)
+salt = os.urandom(16)
 kdf = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
     length=32,
-    salt=os.urandom(16),
+    salt=salt,
     iterations=100000,
 )
 secret_key = base64.urlsafe_b64encode(kdf.derive(password)).decode('utf-8')
